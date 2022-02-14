@@ -1,6 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import {useNavigate, useParams } from 'react-router-dom'
 
-// import { useAuth } from "../hooks/useAuth"
 import { useRoom } from '../hooks/useRoom'
 
 import { Button } from '../components/Button'
@@ -21,15 +20,12 @@ type RoomParams = {
 }
 
 export function AdminRoom () {
-  // const { user } = useAuth();
   const navigate = useNavigate()
   const params = useParams<RoomParams>()
   const roomId = params.id
   const { title, questions } = useRoom(String(roomId))
   const hasQuestions = questions.length > 0
-
-  console.log(hasQuestions)
-
+    
   async function handleEndRoom () {
     await database.ref(`rooms/${roomId}`).update({
       endedAt: new Date()
@@ -77,7 +73,7 @@ export function AdminRoom () {
         <div className="question-list">
 
           { !hasQuestions ? (
-            <span>Por enquanto, não foi realizado nenhuma interação.</span>
+            <span className="no-questions">Até o momento, não foi realizada nenhuma interação.</span>
           ) : (
             questions.map(question => {
               return (
